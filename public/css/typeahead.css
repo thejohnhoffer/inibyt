@@ -1,0 +1,29 @@
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+  margin-bottom: 0;
+}
+
+.tt-dropdown-menu {
+  min-width: 100px;
+  margin-top: 2px;
+  padding: 5px 0;
+  background-color: dimgrey;
+  border: 2px solid green;
+  text-align: left;
+}
+
+.tt-suggestion {
+  display: block;
+  padding: 3px 20px;
+  color: black;
+  background-color: dimgrey;
+}
+
+.tt-suggestion.tt-cursor {
+  color: green;
+  background-color: white;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
