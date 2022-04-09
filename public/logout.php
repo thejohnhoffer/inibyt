@@ -7,6 +7,6 @@
     logout();
 
     // redirect user
-    redirect("../public/login.php");
+    redirect("./login.php");
 
 ?>

@@ -100,7 +100,6 @@
         }
         else
         {
-            dump(print_r($statement->errorInfo(),true));
             return false;
         }
     }

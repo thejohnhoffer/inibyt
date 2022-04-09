@@ -8,6 +8,8 @@
  * CS50 Final Project 2014
  * hoffer@college.harvard.edu
  */
+var simpledata = [];
+var globaldata = [];
 var globalgroups = [];
 //dock ready
 $(function(){
@@ -15,54 +17,57 @@ $(function(){
 var t = 0,
     data = [],
     nodes = {},
-    nodelist = [],
+    datanodes = [],
     translation = [0,0],
     scaleFactor = 1,
-    step = 100,
+    speed = 100,
     timemoving= true;
 
-// get the data
+var selected_node = null;
+
+// get the data from yourdata.php
 $.getJSON("feedin.php", function (data) {
-// if there is data
+
+simpledata = data;
 if (data[0] != null) {
   // set size of the entire layout
   var buffer = document.getElementById("top").offsetHeight + document.getElementById("nav").offsetHeight;
-      width = 0.9*window.innerWidth,
+      width = window.innerWidth,
       height = window.innerHeight;
 
-  // make a list of nodes from link data
+  // for each link
   data.forEach(function(link) {
-    var newnode = true;
+    var newdatanode = true;
     // make sure the source has not been added
-    nodelist.forEach(function(nodename) {
-      if (nodename == link.source) {
-        newnode = false;
+    datanodes.forEach(function(datanode) {
+      if (datanode == link.source) {
+        newdatanode = false;
       }
     });
-    // if not, add the source to the list of nodes
-    if (newnode) {
-      nodelist.push(link.source);
+    // if not, add the source to the array of datanodes
+    if (newdatanode) {
+      datanodes.push(link.source);
     }
-    newnode = true;
+    newdatanode = true;
     // make sure the target has not been added
-    nodelist.forEach(function(nodename) {
-      if (nodename == link.target) {
-        newnode = false;
+    datanodes.forEach(function(datanode) {
+      if (datanode == link.target) {
+        newdatanode = false;
       }
     });
-    // if not, add the target to the list of nodes
-    if (newnode) {
-      nodelist.push(link.target);
+    // if not, add the target to the array of datanodes
+    if (newdatanode) {
+      datanodes.push(link.target);
     }
   });
 
   var tobegrouped = [];
-  // for each nodename
-  for (var key in nodelist) {
+  // for each datanode
+  for (var key in datanodes) {
     // if the node needs to be grouped
-    if (nodelist[key].indexOf("bqxgp") == -1) {
+    if (datanodes[key].indexOf("bqxgp") == -1) {
       // add the node to the list to be grouped
-      tobegrouped.push({"tobe": nodelist[key], "grouped": []});
+      tobegrouped.push({"tobe": datanodes[key], "grouped": []});
       // remember the index of this recently added node
       var nind = tobegrouped.length -1;
       // For each link
@@ -92,7 +97,7 @@ if (data[0] != null) {
   // if there are any nodes that need to be grouped
   if (tobegrouped[0] != null) {
 
-    // make nodes to be grouped unique
+    // make each to be grouped array of nodes to be unique
     for (var tbg in tobegrouped) {
       tobegrouped[tbg].grouped = _.uniq(tobegrouped[tbg].grouped);
     }
@@ -133,24 +138,26 @@ if (data[0] != null) {
     }
   }
 
-  // Create node objects from links
-  data.forEach(function(link) {
-    // if the source node is already defined
-    link.source = nodes[link.source] ||
-    // if the node isn't yet defined
-    (nodes[link.source] = {name: link.source,
-       thresh: 100,
-       state:"inactive",
-       value:0});
-    // if the target node is already defined
-    link.target = nodes[link.target] ||
-    // if the node isn't yet defined
-    (nodes[link.target] = {name: link.target,
-      thresh: 100,
-      state:"inactive",
-      value:0});
-    });
 
+    // Create nodes from links
+    data.forEach(function(link) {
+      // if the source node is already defined
+      link.source = nodes[link.source] ||
+      // if the node isn't yet defined
+      (nodes[link.source] = {name: link.source,
+         thresh: 100,
+         state:"inactive",
+         value:0});
+      // if the target node is already defined
+      link.target = nodes[link.target] ||
+      // if the node isn't yet defined
+      (nodes[link.target] = {name: link.target,
+        thresh: 100,
+        state:"inactive",
+        value:0});
+      });
+
+  globaldata = data;
   // initiates the the force diagram
   var force = d3.layout.force()
       // defines the nodes
@@ -234,7 +241,7 @@ if (data[0] != null) {
             return "M0,-5L3,-5L3,3L0,3";
           });
 
-  // create an empty space for box paths
+  // create an empty space for black box paths
   var boxpath = svg.append("g").attr("id","boxpath").selectAll("path");
 
   // create a division with an array of paths
@@ -281,9 +288,6 @@ if (data[0] != null) {
   // create an empty space for black box text
   var boxtext = svg.append("g").attr("id","boxtext").selectAll("text");
 
-  // listens for any changes in the window
-  $(window).resize(function(){windowchange()});
-
   // listens for any changes in the sim checkbox
   $("#sim").click(function() {
       var chance = 0.4;
@@ -291,7 +295,6 @@ if (data[0] != null) {
       if (timemoving == false) {
         force.nodes().forEach(function (fn) {
         chance = document.getElementById("fixins").value;
-          // randomly freeze some of the nodes
           if (Math.random() < 0.5 - 0.4*chance){
             fn.fixed = true;
           }
@@ -300,8 +303,8 @@ if (data[0] != null) {
           }
         });
       }
-      // set step interval
-      step = 100 * (1-chance);
+      // set the speed of pulses // higher is slower...
+      speed = 100 * (1-chance);
       // start the clock
       tick();
   });
@@ -313,17 +316,16 @@ if (data[0] != null) {
   });
 
   // listens for abstraction box changes
-  $("#abstract").click(function() {
+  $("#test").click(function() {
     // send the new value to index.php
     $.post( "index.php", { checked: this.checked} );
-    groupup();
+    upslide();
   });
-  groupup();
+  upslide();
 
-  // show or hide groups
-  function groupup() {
-    // if the abstraction checkbox set to show detail
-    if (document.getElementById("abstract").checked) {
+  function upslide() {
+    // if the checkbox is checked
+    if (document.getElementById("test").checked) {
       // remove the black box and all its goodies
       box = d3.select("#box").selectAll("rect").remove();
       boxtext = d3.select("#boxtext").selectAll("text").remove();
@@ -343,7 +345,7 @@ if (data[0] != null) {
           text[0][j].style.visibility = "visible";
       }
     }
-    // if abstraction is required
+    // if checkbox isn't checked
     else {
       var groupo = [],
           groupi = [],
@@ -531,7 +533,6 @@ if (data[0] != null) {
       // remove conencting nodes from internal nodes
       nodeswithin = _.difference(nodeswithin, nodesbetween);
 
-      // find nodes with no group name
       var lostsouls = [];
       // for all nodes that are within groups
       for (var win = 0; win < nodeswithin.length; win++){
@@ -553,7 +554,6 @@ if (data[0] != null) {
       // make the list of absorbed nodes unique
       lostsouls = _.uniq(lostsouls);
 
-      // assign a group to each soul
       var groupguess = [];
       // for each absorbed node
       lostsouls.forEach(function(ls){
@@ -576,15 +576,14 @@ if (data[0] != null) {
         });
       });
 
-      // make sure no repeated guesses
+      // make sure there are unique guesses for each lost souls' group
       groupguess = _.unique(groupguess);
-
 
       var groupmath = [];
       groupguess.forEach(function(gg){
         var lostnode = gg.substring(gg.indexOf('bqxgp')+5);
         var guessing = gg.substring(0, gg.indexOf('bqxgp'));
-        // check if the lost node already has a guessed row
+        // check if the lost node already has a guess row added for it
         var guesscheck = [];
         guesscheck = $.grep(groupmath, function (gm){
           if (gm.ls == lostnode) {
@@ -596,6 +595,7 @@ if (data[0] != null) {
           groupmath.push({"guess": [guessing], "ls": lostnode})
         }
       });
+
 
       // take the most common guess
       groupmath.forEach(function(gm){
@@ -623,10 +623,9 @@ if (data[0] != null) {
             tgroup = tname.substring(0, tname.indexOf("bqxgp"));
           }
 
-          // determine whether the target or source is in a group
           var issorwithin = _.intersection([sname], nodeswithin);
           var istarwithin = _.intersection([tname], nodeswithin);
-          // if the target is a groupless node and the source is external
+          // if the target is a groupless absorbed node and the source is external
           if (tname == ls && _.isEmpty(issorwithin)) {
             // try to guess the group of the target
             tgroup = $.grep(groupmath, function (gm){
@@ -639,7 +638,7 @@ if (data[0] != null) {
             // as long as groups are involved, hide the links from the graph
             path[0][key].style.visibility = "hidden";
           }
-          // if the source is a groupless node and the target is external
+          // if the source is a groupless absorbed node and the target is external
           if (sname == ls && _.isEmpty(istarwithin)) {
             // try to guess the group of the source
             sgroup = $.grep(groupmath, function (gm){
@@ -725,7 +724,7 @@ if (data[0] != null) {
 
       // for every circle on the stage
       for (var j = 0; j < circle[0].length; j++) {
-        // for every node within the group
+        // for every middleman in the group
         for (var n = 0; n < nodeswithin.length; n++) {
             // if the circle is a node within
             if (circle[0][j].id == "cir" +nodeswithin[n]) {
@@ -1057,6 +1056,9 @@ if (data[0] != null) {
     tick();
   }
 
+  // listens for any changes in the window
+  $(window).resize(function(){windowchange()});
+
   // follow mouse
   function mousemove() {
     cursor.attr("transform", "translate(" + d3.mouse(this) + ")");
@@ -1079,7 +1081,7 @@ if (data[0] != null) {
 
           // if a node is touching the mouse
           if (Math.sqrt(x * x + y * y) < 30) {
-            // check if the current node is active
+            // check if the current node is above threshold
             if (nodes[node].value > 0) {
               // inhibit the neuron
               nodes[node].state = "inactive";
@@ -1087,7 +1089,7 @@ if (data[0] != null) {
               // make the neuron look inactive
               svgid.style.fill = "grey";
             }
-            // else, the current node is inactive
+            // else, the current node is below threshold
             else {
               // excite the neuron
               nodes[node].state = "active";
@@ -1119,7 +1121,7 @@ if (data[0] != null) {
 
     // run one of two slower clocks
       if (document.getElementById("sim").checked) {
-        if ( t > step ) {
+        if ( t > speed ) {
           // pulse
           restart();
           // update values, change graphic
@@ -1127,7 +1129,7 @@ if (data[0] != null) {
         }
       }
       else {
-          t = step;
+          t = speed;
       }
 
       // one tick passes
@@ -1160,7 +1162,7 @@ if (data[0] != null) {
             // inhibit the target
             nodes[tarname].value = nodes[tarname].value - ipsp;
             // reset the source
-        //    nodes[sorname].value = 0;
+          //  nodes[sorname].value = 0;
             }
           // if the link is excitatory
           if (synapse == "excite")
@@ -1170,7 +1172,7 @@ if (data[0] != null) {
             // excite the target
             nodes[tarname].value = nodes[tarname].value + epsp;
             // reset the source
-        //    nodes[sorname].value = 0;
+           // nodes[sorname].value = 0;
             }
         }
       }
@@ -1214,7 +1216,7 @@ if (data[0] != null) {
   function windowchange() {
 
     // recenter the force location
-    width = 0.9*window.innerWidth,
+    width = window.innerWidth,
     height = window.innerHeight,
     force.size([width, height]),
 
@@ -1362,6 +1364,7 @@ if (data[0] != null) {
   }
 
   // stick/unstick nodes
+
   function dblclick(d) {
     if (d3.select(this).classed("fixed")) {
       d3.select(this).classed("fixed", d.fixed = false);
@@ -1401,7 +1404,7 @@ if (data[0] != null) {
 else {
   // set size of the entire layout
   var buffer = document.getElementById("top").offsetHeight + document.getElementById("nav").offsetHeight;
-  width = 0.9*window.innerWidth,
+  width = window.innerWidth,
   height = window.innerHeight;
 
   // Create an svg division in html
@@ -1425,7 +1428,7 @@ else {
   });
 
   // listens for abstraction box changes
-  $("#abstract").click(function() {
+  $("#test").click(function() {
     // send the new value to index.php
     $.post( "index.php", { checked: this.checked} );
   });

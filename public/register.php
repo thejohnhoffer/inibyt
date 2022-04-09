@@ -44,7 +44,7 @@
         $_SESSION["id"] = $rows[0]["id"];
 
         // redirect to portfolio
-        redirect("../");
+        redirect("./index.php");
     }
 
 ?>

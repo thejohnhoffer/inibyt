@@ -1,9 +1,10 @@
-<div id="top">
-  <a href="../"><img src="../public/img/logo.gif"
+<div style="display: grid; grid-template-columns: auto 400px auto; pointer-events: none">
+  <div id="top" style="grid-column: 2; pointer-events: all; background: gainsboro;">
+  <a href="../public"><img src="../public/img/logo.gif"
     onmouseover="this.src='../public/img/logohover.gif'"
     onmouseout="this.src='../public/img/logo.gif'"/></a>
   </div>
-    <div id = "nav">
+  <div id = "nav" style="grid-column: 2; pointer-events: all; background: gainsboro;">
     <ul class="nav nav-pills">
     <li>
       <div class="buttonContainer">
@@ -11,8 +12,8 @@
         <span id = "abstract"></span>
       </div>
     </li>
-    <li><button id="new" onclick="location.href='newdata.php'">+Link</button></li>
-    <li><button id="home" onclick="location.href='index.php'">+Box</button></li>
+    <li><button id="new" onclick="location.href='./newdata.php'">+Link</button></li>
+    <li><button id="home" onclick="location.href='./index.php'">+Box</button></li>
     </ul>
     <p>
          <?= htmlspecialchars($notice) ?>
@@ -42,8 +43,9 @@
         </form>
       </p>
     </div>
+</div>
 
-    <div id = "viz">
+    <div id = "viz" style="position: absolute; width: 100vw; height: 100vh; z-index: -1; top: 0; left: 0">
       <script src="../public/js/force.js"></script>
     </div>
 
@@ -52,7 +54,7 @@
         <li>
           TTYL:
           <br/>
-          <button id="logout" onclick="location.href='logout.php'">Log Out</button>
+          <button id="logout" onclick="location.href='./logout.php'">Log Out</button>
         </li>
       </ul>
     </div>

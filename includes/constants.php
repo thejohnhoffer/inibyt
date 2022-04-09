@@ -12,13 +12,13 @@
     // your database's name
     define("DATABASE", "inibyt");
 
-    // your database's username
-    define("USERNAME", "john");
-
     // your database's password
-    define("PASSWORD", "john");
+    define("PASSWORD", "password");
 
     // your database's server
-    define("SERVER", "localhost");
+    define("SERVER", "127.0.0.1");
+
+    // your database's username
+    define("USERNAME", "admin");
 
 ?>
