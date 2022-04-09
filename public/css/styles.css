@@ -1,0 +1,302 @@
+/*Include Ricasso fonts*/
+@font-face { font-family: Ricasso; src: url('../fonts/Ricasso-Regular.ttf'); }
+
+/*General Styles*/
+#top {
+  margin-left: 0px;
+  margin-right: 0px;
+  text-align: center;
+}
+
+#content {
+  margin-left: 0px;
+  margin-right: 0px;
+  text-align: center;
+  font-family: Ricasso;
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  background: gainsboro;
+}
+
+span {
+  vertical-align: middle;
+}
+
+#forcevisual {
+  background: gainsboro;
+  align: left;
+}
+
+#news {
+  position: relative;
+  bottom: 20px;
+  right: 200px;
+}
+
+marquee{
+  position:absolute;
+}
+
+#sefue {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  text-align: left;
+}
+
+/* cursor settings */
+#viz {
+  text-align: left;
+  cursor: n-resize;
+}
+
+rect {
+  cursor: move;
+}
+
+/* Label Text styles */
+.label {
+  text-shadow:
+  -1px -1px 0 #fff,
+  1px -1px 0 #fff,
+  -1px 1px 0 #fff,
+  1px 1px 0 #fff;
+}
+
+.boxlabel {
+  text-shadow:
+  -1px -1px 0 #fff,
+  1px -1px 0 #fff,
+  -1px 1px 0 #fff,
+  1px 1px 0 #fff;
+  font-size: 1.5em;
+}
+
+/* Arrowhead styles */
+#inhibit {
+  stroke: none;
+  fill: crimson;
+}
+
+#inhibyt {
+  stroke: none;
+  fill: black;
+}
+
+#excite {
+  stroke: none;
+  fill: black;
+}
+
+#excyte {
+  stroke: none;
+  fill: crimson;
+}
+
+/* Default node and link styles */
+
+circle {
+    fill: grey;
+    stroke: gainsboro;
+    stroke-width: 2px;
+}
+
+.link{
+  stroke-width: 2px;
+  fill: none;
+}
+
+.link.inhibit {
+  stroke: red;
+}
+
+.link.excite {
+  stroke: black;
+}
+
+.link.excyte {
+  stroke: black;
+}
+
+/* Mouse Tracker Style */
+
+.cursor {
+  fill: none;
+  stroke: grey;
+  pointer-events: none;
+}
+
+/* Navigation Styles*/
+
+.nav {
+  font-family: Ricasso;
+  display: inline-block;
+  font-weight: bold;
+}
+
+/* Navigation Range Styles*/
+.slider {
+  width: 100px !important;
+  display: inline-block !important;
+  background-color: dimgray;
+  -webkit-appearance: none;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: black;
+  width: 30px;
+  height: 30px;
+  cursor: move;
+}
+.sliderhider {
+  width: 300px !important;
+  display: none !important;
+}
+
+/* Navigation Checkbox Styles*/
+
+.buttonContainer {
+	background-color: dimgray;
+  border: none;
+	width:100px;
+	height:40px;
+}
+
+.buttonContainer:hover {
+  background-color: black;
+}
+
+.checkbox {
+	opacity:0.0;
+	width:100px;
+	height:40px;
+	position:absolute;
+  margin: 4px;
+}
+
+/* Play / Pause Time Checkbox Span*/
+
+#abstract:after {
+  font-family: Ricasso;
+  display: inline-block;
+  padding: 10px 0px 10px 0px;
+  content:"Detail";
+  color: limegreen;
+}
+
+.checkbox:hover + #abstract:after {
+  content:"Detail";
+  color: green;
+}
+
+.checkbox:checked + #abstract:after {
+  content:"Simple";
+  color: limegreen;
+}
+
+#timestop:after {
+  font-family: Ricasso;
+  display: inline-block;
+  padding: 10px 0px 10px 0px;
+	content:"i> Time";
+  color: limegreen;
+}
+
+.checkbox:hover + #timestop:after {
+  content:"i> Time";
+  color: green;
+}
+
+.checkbox:checked + #timestop:after {
+	content:"|| Time";
+  color: red;
+}
+
+/* button styles */
+button{
+  background-color: dimgray;
+  font-family: Ricasso;
+  border: none;
+  color: limegreen;
+  padding: 0px;
+  width:100px;
+  height:40px;
+}
+
+button:hover{
+  background-color: black;
+  color: green;
+}
+
+#logout{
+  color: red;
+}
+
+#logout:hover{
+  color: crimson;
+}
+
+#delete{
+  color: red;
+}
+
+#view{
+  color: red;
+}
+
+#view:hover{
+  color: crimson;
+}
+
+/*form submission styles*/
+.form-con {
+    /* center form controls*/
+    display: inline-block;
+    /* make forms shorter*/
+    width: 300px;
+    height: 30;
+    max-width: 100%;
+    background: dimgray;
+    border: 2px solid green;
+}
+
+.form-con:hover {
+    border: 2px solid limegreen;
+    background: white;
+}
+
+.form-net {
+  /* center form controls*/
+  display: inline-block;
+  /* make forms shorter*/
+  width: 200px;
+  background: dimgray;
+  border: 2px solid green;
+}
+
+.form-net:hover {
+  border: 2px solid limegreen;
+  background: white;
+}
+
+
+.form-small {
+    /* center form controls*/
+    display: inline-block;
+    /* make forms shorter*/
+    width: 100px;
+    background: dimgray;
+    border: 2px solid green;
+}
+
+.form-small:hover {
+    border: 2px solid limegreen;
+    background: white;
+}
