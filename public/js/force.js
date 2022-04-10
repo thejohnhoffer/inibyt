@@ -316,7 +316,7 @@ if (data[0] != null) {
   });
 
   // listens for abstraction box changes
-  $("#test").click(function() {
+  $("#abstract").click(function() {
     // send the new value to index.php
     $.post( "index.php", { checked: this.checked} );
     upslide();
@@ -325,7 +325,7 @@ if (data[0] != null) {
 
   function upslide() {
     // if the checkbox is checked
-    if (document.getElementById("test").checked) {
+    if (document.getElementById("abstract").checked) {
       // remove the black box and all its goodies
       box = d3.select("#box").selectAll("rect").remove();
       boxtext = d3.select("#boxtext").selectAll("text").remove();
@@ -1428,7 +1428,7 @@ else {
   });
 
   // listens for abstraction box changes
-  $("#test").click(function() {
+  $("#abstract").click(function() {
     // send the new value to index.php
     $.post( "index.php", { checked: this.checked} );
   });
