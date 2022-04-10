@@ -91,9 +91,9 @@
         $target = str_replace(".","bqxgp", $target);
 
         // remove all non-alphanumeric characters from everything
-        $source = preg_replace("/[^A-Za-z0-9 ]/", '', $source);
-        $target = preg_replace("/[^A-Za-z0-9 ]/", '', $target);
-        $type = preg_replace("/[^A-Za-z0-9 ]/", '', $type);
+        $source = preg_replace("/[^A-Za-z0-9_ ]/", '', $source);
+        $target = preg_replace("/[^A-Za-z0-9_ ]/", '', $target);
+        $type = preg_replace("/[^A-Za-z0-9_ ]/", '', $type);
 
         // Annoyingly, change all 0s, 3s, 5s, to Os, Es, and Ss for comparison
         $scmp = str_replace("0", "O", $source);
