@@ -25,6 +25,12 @@ var t = 0,
 
 var selected_node = null;
 
+function getTopBuffer() {
+  var b1 = document.getElementById("top").offsetHeight;
+  var b2 = document.getElementById("nav").offsetHeight;
+  return b1 + b2;
+}
+
 // get the data from yourdata.php
 $.getJSON("feedin.php", function (data) {
 
@@ -32,7 +38,7 @@ simpledata = data;
 if (data[0] != null) {
   // set size of the entire layout
   var width = window.innerWidth;
-  var height = window.innerHeight;
+  var height = window.innerHeight + getTopBuffer() / 2;
 
   // for each link
   data.forEach(function(link) {
@@ -1215,8 +1221,8 @@ if (data[0] != null) {
   function windowchange() {
 
     // recenter the force location
-    width = window.innerWidth,
-    height = window.innerHeight,
+    var width = window.innerWidth;
+    var height = window.innerHeight + getTopBuffer() / 2;
     force.size([width, height]),
 
     // resize the viewing window
@@ -1403,7 +1409,7 @@ if (data[0] != null) {
 else {
   // set size of the entire layout
   var width = window.innerWidth;
-  var height = window.innerHeight;
+  var height = window.innerHeight + getTopBuffer() / 2;
 
   // Create an svg division in html
   var svg = d3.select("#viz").append("svg")
