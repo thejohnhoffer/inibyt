@@ -31,9 +31,8 @@ $.getJSON("feedin.php", function (data) {
 simpledata = data;
 if (data[0] != null) {
   // set size of the entire layout
-  var buffer = document.getElementById("top").offsetHeight + document.getElementById("nav").offsetHeight;
-      width = window.innerWidth,
-      height = window.innerHeight;
+  var width = window.innerWidth;
+  var height = window.innerHeight;
 
   // for each link
   data.forEach(function(link) {
@@ -1403,9 +1402,8 @@ if (data[0] != null) {
 // if there is no data
 else {
   // set size of the entire layout
-  var buffer = document.getElementById("top").offsetHeight + document.getElementById("nav").offsetHeight;
-  width = window.innerWidth,
-  height = window.innerHeight;
+  var width = window.innerWidth;
+  var height = window.innerHeight;
 
   // Create an svg division in html
   var svg = d3.select("#viz").append("svg")
