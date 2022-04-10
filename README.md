@@ -10,7 +10,7 @@ You'll want to install PHP 7 and MySQL. You'll need MySQL running locally.
 
 In MySQL console `mysql -u admin -p`, run the following sql:
 
-```
+```sql
 CREATE DATABASE inibyt;
 CREATE USER 'admin'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 CREATE TABLE inibyt.users ( id int PRIMARY KEY AUTO_INCREMENT, username varchar(255), hash varchar(255), fixed varchar(255), abstract varchar(255) );
