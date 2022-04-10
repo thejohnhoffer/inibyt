@@ -1,5 +1,5 @@
 <div id="top">
-  <a href="../public"><img src="../public/img/logo.gif"
+  <a href="../public/index.php"><img src="../public/img/logo.gif"
     onmouseover="this.src='../public/img/logohover.gif'"
     onmouseout="this.src='../public/img/logo.gif'"/></a>
     <br/>

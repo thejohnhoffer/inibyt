@@ -1,6 +1,6 @@
 <div style="display: grid; grid-template-columns: auto 400px auto; pointer-events: none">
   <div id="top" style="grid-column: 2; pointer-events: all; background: gainsboro;">
-  <a href="../public"><img src="../public/img/logo.gif"
+  <a href="../public/index.php"><img src="../public/img/logo.gif"
     onmouseover="this.src='../public/img/logohover.gif'"
     onmouseout="this.src='../public/img/logo.gif'"/></a>
   </div>
