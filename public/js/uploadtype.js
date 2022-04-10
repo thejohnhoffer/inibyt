@@ -32,8 +32,8 @@ function fileconfigure()
 
         // make sure the data is simplified
 
-        if (!document.getElementById("test").checked){
-          $("#test").trigger( "click" );
+        if (!document.getElementById("abstract").checked){
+          $("#abstract").trigger( "click" );
         }
 
         globaldata.forEach(function(gd){
@@ -60,8 +60,8 @@ function filesearch(query, cb)
     };
 
     // make sure the data is simplified
-    if (document.getElementById("test").checked){
-      $("#test").trigger( "click" );
+    if (document.getElementById("abstract").checked){
+      $("#abstract").trigger( "click" );
     }
 
     datagroups = globalgroups;

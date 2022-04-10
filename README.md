@@ -15,7 +15,7 @@ CREATE DATABASE inibyt;
 CREATE USER 'admin'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 CREATE TABLE inibyt.users ( id int PRIMARY KEY AUTO_INCREMENT, username varchar(255), hash varchar(255), fixed varchar(255), abstract varchar(255) );
 CREATE TABLE inibyt.userlinks ( linkid int PRIMARY KEY AUTO_INCREMENT, userid int, source varchar(255), type varchar(255), target varchar(255), weight int );
-CREATE TABLE inibyt.files ( id int PRIMARY KEY AUTO_INCREMENT, source varchar(255), type varchar(255), target varchar(255), box varchar(255) );
+CREATE TABLE inibyt.files ( id int PRIMARY KEY AUTO_INCREMENT, source varchar(255), type varchar(255), target varchar(255), box varchar(255), weight int );
 GRANT ALL PRIVILEGES ON inibyt.* TO 'admin'@'localhost' WITH GRANT OPTION;
 ```
 
